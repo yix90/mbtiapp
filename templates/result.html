@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="w3-display-middle">
+    <hr class="w3-border-grey" style="margin:auto;width:40%">
+    <p class="w3-large w3-center">Your result: {{typer}}</p>
+    <table class="w3-center" style="margin-bottom:32px; display:block; margin:20px 130px">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Probability</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>{{e1}}</th>
+          <th>{{e2}}</th>
+        </tr>
+        <tr>
+          <th>{{s1}}</th>
+          <th>{{s2}}</th>
+        </tr>
+        <tr>
+          <th>{{t1}}</th>
+          <th>{{t2}}</th>
+        </tr>
+        <tr>
+          <th>{{j1}}</th>
+          <th>{{j2}}</th>
+        </tr>
+      </tbody>
+    </table>
+    <textarea rows="10" cols="50">
+      {% for word in wordy %}
+      {{word}}
+      {% endfor %}
+    </textarea>
+
+    <p><a href="/">Back to home</a></p>
+  </div>
+
+
+{% endblock %}

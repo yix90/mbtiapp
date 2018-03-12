@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="w3-display-middle">
+    <hr class="w3-border-grey" style="margin:auto;width:40%">
+    {% for maile for mailey %}
+    <p class="w3-large w3-center">{{maile}}</p>
+    {% endfor %}
+  </div>
+
+
+{% endblock %}
