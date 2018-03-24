@@ -16,9 +16,9 @@
           </p>
         </fieldset>
       </form>-->
-    <form action="1" method="POST">
-      <label class="w3-text-blue"><b>Type stuff here!</b></label>
-      <!-- <input class="w3-input w3-border w3-round-large" type="text" name="entry"/> -->
+    <form action="1" method="POST" enctype = "multipart/form-data">
+      <label class="w3-text-blue"><b>Type stuff here!</b> Or upload file (in txt format)</label>
+      <input type="file" value="Upload" name="file"/>
       <textarea class="w3-input w3-border w3-round-large" rows="1" cols="25" name="entry"></textarea>
       <p><input type="submit" value="submit"/></p>
     </form>

@@ -5,16 +5,8 @@ import pandas as pd
 import numpy as np
 import re
 import datetime as dt
-# from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.model_selection import train_test_split
-# from sklearn.preprocessing import StandardScaler, MinMaxScaler
-# from sklearn.feature_selection import chi2, SelectKBest
-# from sklearn.decomposition import TruncatedSVD
-# from sklearn.metrics import classification_report, confusion_matrix
-# from sklearn.linear_model import LogisticRegression
-# from imblearn.under_sampling import RandomUnderSampler
-import nltk
-from nltk.tokenize import word_tokenize
+# import nltk
+# from nltk.tokenize import word_tokenize
 from tamagombti import *
 import time
 import pickle
@@ -24,6 +16,7 @@ print "start"
 #CONFIG
 app = flask.Flask(__name__)
 app.config['DEBUG'] = True
+app.config[‘MAX_CONTENT_PATH’] = 1073741824 #Limit uploaded file size, 1GB leh quite generous alr
 
 # #Initialize database
 # DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PW,url=POSTGRES_URL,db=POSTGRES_DB)
@@ -73,9 +66,19 @@ def index():
 @app.route('/1',  methods=['POST', 'GET'])
 def addword():
     if request.method == 'POST' and len(request.form['entry']) != 0:
-        newguy.preprocess(request.form['entry'])
+        newguy.preprocess(request.form['entry'].decode('utf-8'))
         usecount=len(newguy.wordlist)
-        return flask.render_template('default.html', c=usecount)
+    if request.method == 'POST' and len(request.files['file']) != 0:
+        try:
+            with open(request.files['file'], 'r') as f:
+                chunkie = f.read()
+            f.close()
+            for line in chunkie:
+                newguy.preprocess(line.decode('utf-8'))
+            usecount=len(newguy.wordlist)
+        except:
+            print "Invalid file input"
+    return flask.render_template('default.html', c=usecount)
 
 @app.route('/2', methods=['POST', 'GET'])
 def predefined():
@@ -84,7 +87,7 @@ def predefined():
         giraffe = pd.read_csv('mbti_1.csv')
         wordlist = giraffe.iloc[choice, 1].split('|||')
         for line in wordlist:
-            newguy.preprocess(line)
+            newguy.preprocess(line.decode('utf-8'))
         usecount=len(newguy.wordlist)
         return flask.render_template('default.html', c=usecount)
 
